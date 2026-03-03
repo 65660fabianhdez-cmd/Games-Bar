@@ -1,11 +1,273 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reportes</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Game'sBar Admin 🎮</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f9fc;
+            color: #111;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(180deg, #0000ff, #00c2b8);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            font-family: "Arial Black", Arial, sans-serif;
+            font-size: 1.7rem;
+            text-align: center;
+            margin-bottom: 30px;
+            user-select: none;
+        }
+
+        .nav-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #00b7a8;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(90deg, #0000ff, #00c2b8);
+            padding: 18px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        header .user-info {
+            font-size: 0.95rem;
+        }
+
+        section {
+            padding: 30px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        h2 {
+            color: #2f00ff;
+            margin-bottom: 20px;
+        }
+
+        .titulo_barra{
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+        }
+
+        .form-title {
+            margin-bottom: 25px;
+            color: #0000ff;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 0.95rem;
+            transition: border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #00c2b8;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 194, 184, 0.4);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        .section-divider {
+            margin: 25px 0 15px 0;
+            font-weight: bold;
+            color: #00c2b8;
+            border-bottom: 2px solid #00c2b8;
+            padding-bottom: 5px;
+        }
+
+        .info-box {
+            background: #eef7ff;
+            border-left: 4px solid #0000ff;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #0000ff, #00c2b8);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.95rem;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.03);
+            opacity: 0.9;
+        }
+    </style>
 </head>
+
 <body>
-    <p>Bienvenido a Game's Bar(Reporte)</p>
+    <nav class="sidebar">
+        <h2 class="titulo_barra">Game'sBar</h2>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageEntradasSalidas'">
+            Entradas y Salidas
+        </div>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageProveedores'">
+            Proveedor
+        </div>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageProductos'">
+            Producto
+        </div>
+
+        <div class="nav-item active">
+            Reporte
+        </div>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageUsuario'">
+            Usuarios
+        </div>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageSolicitudProductos'">
+            Solicitud de Productos
+        </div>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageSucursal'">
+            Sucursal
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <header>
+            Game'sBar 🎮 - Administración
+            <div class="user-info">Hola, Admin</div>
+        </header>
+
+        <section>
+            <h2>Generar Reporte de Inventario</h2>
+
+            <div class="card">
+
+                <div class="info-box">
+                    Este reporte generará el total de entradas desde proveedores,
+                    total de salidas hacia sucursales y el total de productos
+                    restantes en matriz correspondientes al período seleccionado.
+                </div>
+
+                <form>
+
+                    <div class="form-group">
+                        <label>ID del Período</label>
+                        <input type="number" placeholder="Ingrese el ID del período">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Formato de Exportación</label>
+                        <select>
+                            <option>Seleccione formato</option>
+                            <option>PDF</option>
+                            <option>XLSX</option>
+                            <option>CSV</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nombre del Archivo</label>
+                        <input type="text" maxlength="30"
+                            placeholder="Ej. reporte_inventario_marzo_2026">
+                    </div>
+
+                    <div class="section-divider">Incidencias del Producto</div>
+
+                    <div class="form-group">
+                        <label>Detalle de Incidencia</label>
+                        <textarea placeholder="Describe cualquier producto dañado, incompleto o con anomalías detectadas durante el período..."></textarea>
+                    </div>
+
+                    <div class="section-divider">Observaciones Generales</div>
+
+                    <div class="form-group">
+                        <label>Notas adicionales</label>
+                        <textarea placeholder="Escribe observaciones adicionales relacionadas al inventario del período..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        Generar Reporte
+                    </button>
+
+                </form>
+
+            </div>
+        </section>
+    </div>
 </body>
 </html>

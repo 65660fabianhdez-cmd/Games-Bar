@@ -1,11 +1,291 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud de Productos</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Game'sBar Admin 🎮</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f9fc;
+            color: #111;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sidebar {
+            width: 240px;
+            background: linear-gradient(180deg, #0000ff, #00c2b8);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding-top: 20px;
+        }
+
+        .sidebar h2 {
+            font-family: "Arial Black", Arial, sans-serif;
+            font-size: 1.7rem;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-item {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: background 0.3s ease;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background: #00b7a8;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(90deg, #0000ff, #00c2b8);
+            padding: 18px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        section {
+            padding: 30px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        h2 {
+            color: #0000ff;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .section-divider {
+            margin: 25px 0 15px 0;
+            font-weight: bold;
+            color: #00c2b8;
+            border-bottom: 2px solid #00c2b8;
+            padding-bottom: 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #0000ff, #00c2b8);
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .btn-secondary {
+            background: #e0e0e0;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        table th {
+            background: #f0f8ff;
+        }
+    </style>
 </head>
+
 <body>
-    <p>Ordena tus productos</p>
+    <nav class="sidebar">
+        <h2>Game'sBar</h2>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageEntradasSalidas'">
+            Entradas y Salidas
+        </div>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageProveedores'">
+            Proveedor
+        </div>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageProductos'">
+            Producto
+        </div>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageReporte'">
+            Reporte
+        </div>
+
+        <div class="nav-item active">
+            Solicitud de Productos
+        </div>
+
+        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageSucursal'">
+            Sucursal
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <header>
+            Game'sBar 🎮 - Administración
+            <div>Hola, Admin</div>
+        </header>
+
+        <section>
+
+            <h2>Nueva Solicitud de Productos</h2>
+
+            <div class="card">
+
+                <div class="form-group">
+                    <label>Folio de Solicitud</label>
+                    <input type="text" value="SOL-20260302-4821" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="date">
+                </div>
+
+                <div class="form-group">
+                    <label>Proveedor</label>
+                    <select>
+                        <option>Seleccione proveedor</option>
+                        <option>Xbox</option>
+                        <option>PlayStation</option>
+                        <option>Nintendo</option>
+                    </select>
+                </div>
+
+                <div class="section-divider">Productos a Solicitar</div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre del Producto</th>
+                            <th>Categoría</th>
+                            <th>Cantidad</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" placeholder="Ej. FIFA 26"></td>
+                            <td>
+                                <select>
+                                    <option>Videojuego</option>
+                                    <option>Consola</option>
+                                    <option>Control</option>
+                                    <option>Accesorio</option>
+                                </select>
+                            </td>
+                            <td><input type="number" min="1"></td>
+                            <td><button class="btn-secondary">Eliminar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <button class="btn-secondary">Agregar Otro Producto</button>
+
+                <div class="form-group" style="margin-top:20px;">
+                    <label>Observaciones</label>
+                    <textarea placeholder="Notas adicionales sobre la solicitud..."></textarea>
+                </div>
+
+                <button class="btn-primary">Guardar Solicitud</button>
+
+            </div>
+
+            <h2>Solicitudes Registradas</h2>
+
+            <div class="card">
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Folio</th>
+                            <th>Fecha</th>
+                            <th>Proveedor</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>SOL-20260301-1932</td>
+                            <td>01/03/2026</td>
+                            <td>Xbox</td>
+                            <td>Pendiente</td>
+                            <td>
+                                <button class="btn-secondary">Ver</button>
+                                <button class="btn-secondary">Editar</button>
+                                <button class="btn-secondary">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+        </section>
+    </div>
 </body>
 </html>
