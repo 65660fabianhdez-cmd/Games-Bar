@@ -16,3 +16,9 @@ def sumar_proveedor(request):
         proveedor.save()
 
     return redirect('/pageProveedores/')
+
+def eliminar_proveedor(request, id):
+    provedor = Proveedor_pxn.objects.get(id=id)
+    provedor.delete()
+    return redirect('/pageProveedores/')
+
