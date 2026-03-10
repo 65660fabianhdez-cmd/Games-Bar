@@ -1,11 +1,933 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entradas y salidas</title>
-</head>
-<body>
-    <p>Bienvenido a Game's Bar(sucursal), Beto y Fabian se quieren</p>
-</body>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Game'sBar Admin - Sucursales 🎮</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: #f5f9fc;
+        color: #111;
+        display: flex;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .sidebar {
+        width: 260px;
+        background: linear-gradient(180deg, #0000ff, #00c2b8);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        padding-top: 20px;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      }
+
+      .sidebar h2 {
+        font-family: "Arial Black", Arial, sans-serif;
+        font-size: 1.7rem;
+        text-align: center;
+        margin-bottom: 30px;
+        user-select: none;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      }
+
+      .nav-item {
+        padding: 15px 25px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        font-weight: 600;
+        font-size: 0.95rem;
+        transition: background 0.3s ease;
+        border-left: 4px solid transparent;
+      }
+
+      .nav-item:hover {
+        background: #00b7a8;
+      }
+
+      .nav-item.active {
+        background: #008c7a;
+        border-left: 4px solid #ffd700;
+      }
+
+      .main-content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      header {
+        background: linear-gradient(90deg, #0000ff, #00c2b8);
+        padding: 18px 30px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        font-size: 1.25rem;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+
+      header .user-info {
+        font-size: 0.95rem;
+        background: rgba(255,255,255,0.2);
+        padding: 5px 15px;
+        border-radius: 20px;
+      }
+
+      section {
+        padding: 30px;
+        overflow-y: auto;
+        flex-grow: 1;
+        background: #f5f9fc;
+      }
+
+      .section-title {
+        color: #333;
+        margin-bottom: 25px;
+        font-size: 2rem;
+        font-weight: 600;
+        border-bottom: 3px solid #00c2b8;
+        padding-bottom: 10px;
+      }
+
+      /* Barra de acciones */
+      .action-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        flex: 1;
+        max-width: 400px;
+      }
+
+      .search-box input {
+        flex: 1;
+        padding: 12px 15px;
+        border: none;
+        outline: none;
+        font-size: 0.95rem;
+      }
+
+      .search-box button {
+        background: #00c2b8;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .search-box button:hover {
+        background: #008c7a;
+      }
+
+      .btn-add {
+        background: #00c2b8;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background 0.3s ease;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      }
+
+      .btn-add:hover {
+        background: #008c7a;
+      }
+
+      /* Tabla de sucursales */
+      .table-container {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        overflow: auto;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+      }
+
+      th {
+        background: linear-gradient(180deg, #0000ff, #00c2b8);
+        color: white;
+        font-weight: 600;
+        padding: 15px;
+        text-align: left;
+        font-size: 0.95rem;
+      }
+
+      td {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+        color: #333;
+      }
+
+      tr:hover {
+        background: #f5f5f5;
+      }
+
+      .status-badge {
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        display: inline-block;
+      }
+
+      .status-active {
+        background: #d4edda;
+        color: #155724;
+      }
+
+      .status-inactive {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 8px;
+      }
+
+      .btn-edit, .btn-delete, .btn-view {
+        padding: 6px 12px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+      }
+
+      .btn-view {
+        background: #e3f2fd;
+        color: #1976d2;
+      }
+
+      .btn-view:hover {
+        background: #1976d2;
+        color: white;
+      }
+
+      .btn-edit {
+        background: #fff3cd;
+        color: #856404;
+      }
+
+      .btn-edit:hover {
+        background: #856404;
+        color: white;
+      }
+
+      .btn-delete {
+        background: #f8d7da;
+        color: #721c24;
+      }
+
+      .btn-delete:hover {
+        background: #721c24;
+        color: white;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .modal.active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 500px;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+      }
+
+      .modal-header {
+        background: linear-gradient(90deg, #0000ff, #00c2b8);
+        color: white;
+        padding: 20px;
+        border-radius: 12px 12px 0 0;
+      }
+
+      .modal-header h3 {
+        font-size: 1.3rem;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .modal-footer {
+        padding: 20px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        transition: border-color 0.3s ease;
+      }
+
+      .form-group input:focus,
+      .form-group select:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #00c2b8;
+      }
+
+      .btn-save {
+        background: #00c2b8;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .btn-save:hover {
+        background: #008c7a;
+      }
+
+      .btn-cancel {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease;
+      }
+
+      .btn-cancel:hover {
+        background: #5a6268;
+      }
+
+      /* Paginación */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .page-btn {
+        padding: 8px 15px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .page-btn:hover {
+        background: #00c2b8;
+        color: white;
+        border-color: #00c2b8;
+      }
+
+      .page-btn.active {
+        background: #00c2b8;
+        color: white;
+        border-color: #00c2b8;
+      }
+
+      /* Loading overlay */
+      .loading {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255,255,255,0.8);
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+      }
+
+      .loading.active {
+        display: flex;
+      }
+
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 5px solid #f3f3f3;
+        border-top: 5px solid #00c2b8;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Loading overlay -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Modal para agregar/editar sucursal -->
+    <div class="modal" id="sucursalModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 id="modalTitle">Agregar Nueva Sucursal</h3>
+        </div>
+        <div class="modal-body">
+          <form id="sucursalForm">
+            <input type="hidden" id="sucursalId">
+            
+            <div class="form-group">
+              <label for="nombre">Nombre de la Sucursal *</label>
+              <input type="text" id="nombre" required placeholder="Ej: Sucursal Centro">
+            </div>
+
+            <div class="form-group">
+              <label for="direccion">Dirección *</label>
+              <input type="text" id="direccion" required placeholder="Calle, número, colonia">
+            </div>
+
+            <div class="form-group">
+              <label for="ciudad">Ciudad *</label>
+              <input type="text" id="ciudad" required placeholder="Ej: Ciudad de México">
+            </div>
+
+            <div class="form-group">
+              <label for="telefono">Teléfono</label>
+              <input type="tel" id="telefono" placeholder="Ej: 55-1234-5678">
+            </div>
+
+            <div class="form-group">
+              <label for="encargado">Encargado</label>
+              <input type="text" id="encargado" placeholder="Nombre del encargado">
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="sucursal@email.com">
+            </div>
+
+            <div class="form-group">
+              <label for="horario">Horario</label>
+              <input type="text" id="horario" placeholder="Ej: 9:00 AM - 9:00 PM">
+            </div>
+
+            <div class="form-group">
+              <label for="estado">Estado</label>
+              <select id="estado">
+                <option value="Activo">Activo</option>
+                <option value="Inactivo">Inactivo</option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+          <button class="btn-save" onclick="guardarSucursal()">Guardar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de confirmación para eliminar -->
+    <div class="modal" id="deleteModal">
+      <div class="modal-content">
+        <div class="modal-header" style="background: #dc3545;">
+          <h3>Confirmar Eliminación</h3>
+        </div>
+        <div class="modal-body">
+          <p>¿Estás seguro de que deseas eliminar la sucursal <strong id="deleteNombre"></strong>?</p>
+          <p style="color: #dc3545; margin-top: 10px;">Esta acción no se puede deshacer.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="cerrarDeleteModal()">Cancelar</button>
+          <button class="btn-save" style="background: #dc3545;" onclick="confirmarEliminar()">Eliminar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de detalles -->
+    <div class="modal" id="detailModal">
+      <div class="modal-content">
+        <div class="modal-header" style="background: #17a2b8;">
+          <h3>Detalles de la Sucursal</h3>
+        </div>
+        <div class="modal-body" id="detailContent">
+          <!-- Se llena dinámicamente -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn-cancel" onclick="cerrarDetailModal()">Cerrar</button>
+        </div>
+      </div>
+    </div>
+
+    <nav class="sidebar">
+      <h2>Game'sBar</h2>
+      <div class="nav-item" onclick="location.href='#'">Entradas y Salidas</div>
+      <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageProveedores'">Proveedor</div>
+      <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageProductos'">Producto</div>
+      <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageReporte'">Reporte</div>
+      <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageUsuario'">Usuarios</div>
+      <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageSolicitudProductos'">Solicitud de Productos</div>
+      <div class="nav-item active" onclick="location.href='//127.0.0.1:8000/pageSucursal'">Sucursal</div>
+    </nav>
+
+    <div class="main-content">
+      <header>
+        Game'sBar 🎮 - Administración de Sucursales
+        <div class="user-info">Hola, Admin</div>
+      </header>
+
+      <section>
+        <h2 class="section-title">🏢 Sucursales</h2>
+
+        <!-- Barra de acciones -->
+        <div class="action-bar">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Buscar sucursal por nombre, ciudad o dirección...">
+            <button onclick="buscarSucursales()">🔍 Buscar</button>
+          </div>
+          <button class="btn-add" onclick="abrirModalNuevo()">
+            ➕ Agregar Sucursal
+          </button>
+        </div>
+
+        <!-- Tabla de sucursales -->
+        <div class="table-container">
+          <table id="sucursalesTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Ciudad</th>
+                <th>Teléfono</th>
+                <th>Encargado</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Se llena con JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Paginación -->
+        <div class="pagination" id="pagination">
+          <!-- Se llena con JavaScript -->
+        </div>
+      </section>
+    </div>
+
+    <script>
+      // Variables globales
+      let sucursales = [];
+      let currentPage = 1;
+      const itemsPerPage = 5;
+      let deleteId = null;
+
+      // Cargar datos al iniciar
+      document.addEventListener('DOMContentLoaded', function() {
+        cargarSucursales();
+      });
+
+      // Función para cargar sucursales (simulada)
+      function cargarSucursales() {
+        mostrarLoading(true);
+        
+        // Simulación de carga de datos
+        setTimeout(() => {
+          // Datos de ejemplo
+          sucursales = [
+            {
+              id: 1,
+              nombre: 'Game\'s Bar Centro',
+              direccion: 'Av. Reforma 123',
+              ciudad: 'Ciudad de México',
+              telefono: '55-1234-5678',
+              encargado: 'Juan Pérez',
+              email: 'centro@gamesbar.com',
+              horario: '10:00 AM - 2:00 AM',
+              estado: 'Activo',
+              empleados: 15
+            },
+            {
+              id: 2,
+              nombre: 'Game\'s Bar Norte',
+              direccion: 'Insurgentes Norte 456',
+              ciudad: 'Ciudad de México',
+              telefono: '55-8765-4321',
+              encargado: 'María García',
+              email: 'norte@gamesbar.com',
+              horario: '11:00 AM - 1:00 AM',
+              estado: 'Activo',
+              empleados: 12
+            },
+            {
+              id: 3,
+              nombre: 'Game\'s Bar Sur',
+              direccion: 'Tlalpan 789',
+              ciudad: 'Ciudad de México',
+              telefono: '55-2468-1357',
+              encargado: 'Carlos López',
+              email: 'sur@gamesbar.com',
+              horario: '12:00 PM - 12:00 AM',
+              estado: 'Inactivo',
+              empleados: 8
+            },
+            {
+              id: 4,
+              nombre: 'Game\'s Bar Santa Fe',
+              direccion: 'Vasco de Quiroga 234',
+              ciudad: 'Ciudad de México',
+              telefono: '55-1122-3344',
+              encargado: 'Ana Martínez',
+              email: 'santafe@gamesbar.com',
+              horario: '9:00 AM - 11:00 PM',
+              estado: 'Activo',
+              empleados: 20
+            },
+            {
+              id: 5,
+              nombre: 'Game\'s Bar Satélite',
+              direccion: 'Circuito Satélite 567',
+              ciudad: 'Naucalpan',
+              telefono: '55-9988-7766',
+              encargado: 'Roberto Sánchez',
+              email: 'satelite@gamesbar.com',
+              horario: '10:00 AM - 2:00 AM',
+              estado: 'Activo',
+              empleados: 18
+            },
+            {
+              id: 6,
+              nombre: 'Game\'s Bar Interlomas',
+              direccion: 'Interlomas 890',
+              ciudad: 'Huixquilucan',
+              telefono: '55-4455-6677',
+              encargado: 'Laura Torres',
+              email: 'interlomas@gamesbar.com',
+              horario: '11:00 AM - 1:00 AM',
+              estado: 'Activo',
+              empleados: 14
+            },
+            {
+              id: 7,
+              nombre: 'Game\'s Bar Universidad',
+              direccion: 'Universidad 1234',
+              ciudad: 'Coyoacán',
+              telefono: '55-3322-1144',
+              encargado: 'Miguel Ángel',
+              email: 'universidad@gamesbar.com',
+              horario: '8:00 AM - 10:00 PM',
+              estado: 'Inactivo',
+              empleados: 10
+            }
+          ];
+          
+          mostrarTabla();
+          mostrarLoading(false);
+        }, 800);
+      }
+
+      // Función para mostrar loading
+      function mostrarLoading(mostrar) {
+        const loading = document.getElementById('loading');
+        if (mostrar) {
+          loading.classList.add('active');
+        } else {
+          loading.classList.remove('active');
+        }
+      }
+
+      // Función para mostrar la tabla con paginación
+      function mostrarTabla() {
+        const tbody = document.getElementById('tableBody');
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        
+        let filteredSucursales = sucursales;
+        
+        if (searchTerm) {
+          filteredSucursales = sucursales.filter(s => 
+            s.nombre.toLowerCase().includes(searchTerm) ||
+            s.ciudad.toLowerCase().includes(searchTerm) ||
+            s.direccion.toLowerCase().includes(searchTerm)
+          );
+        }
+
+        const start = (currentPage - 1) * itemsPerPage;
+        const end = start + itemsPerPage;
+        const paginatedSucursales = filteredSucursales.slice(start, end);
+
+        tbody.innerHTML = '';
+        
+        if (paginatedSucursales.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 30px;">No hay sucursales para mostrar</td></tr>';
+        } else {
+          paginatedSucursales.forEach(s => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>#${s.id}</td>
+              <td><strong>${s.nombre}</strong></td>
+              <td>${s.direccion}</td>
+              <td>${s.ciudad}</td>
+              <td>${s.telefono || 'N/A'}</td>
+              <td>${s.encargado || 'N/A'}</td>
+              <td>
+                <span class="status-badge ${s.estado === 'Activo' ? 'status-active' : 'status-inactive'}">
+                  ${s.estado}
+                </span>
+              </td>
+              <td>
+                <div class="action-buttons">
+                  <button class="btn-view" onclick="verDetalles(${s.id})">👁️ Ver</button>
+                  <button class="btn-edit" onclick="editarSucursal(${s.id})">✏️ Editar</button>
+                  <button class="btn-delete" onclick="abrirDeleteModal(${s.id}, '${s.nombre}')">🗑️ Eliminar</button>
+                </div>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+        }
+
+        mostrarPaginacion(filteredSucursales.length);
+      }
+
+      // Función para mostrar paginación
+      function mostrarPaginacion(totalItems) {
+        const totalPages = Math.ceil(totalItems / itemsPerPage);
+        const pagination = document.getElementById('pagination');
+        
+        pagination.innerHTML = '';
+        
+        for (let i = 1; i <= totalPages; i++) {
+          const btn = document.createElement('button');
+          btn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+          btn.textContent = i;
+          btn.onclick = () => {
+            currentPage = i;
+            mostrarTabla();
+          };
+          pagination.appendChild(btn);
+        }
+      }
+
+      // Función para buscar sucursales
+      function buscarSucursales() {
+        currentPage = 1;
+        mostrarTabla();
+      }
+
+      // Función para abrir modal de nueva sucursal
+      function abrirModalNuevo() {
+        document.getElementById('modalTitle').textContent = 'Agregar Nueva Sucursal';
+        document.getElementById('sucursalForm').reset();
+        document.getElementById('sucursalId').value = '';
+        document.getElementById('sucursalModal').classList.add('active');
+      }
+
+      // Función para editar sucursal
+      function editarSucursal(id) {
+        const sucursal = sucursales.find(s => s.id === id);
+        if (sucursal) {
+          document.getElementById('modalTitle').textContent = 'Editar Sucursal';
+          document.getElementById('sucursalId').value = sucursal.id;
+          document.getElementById('nombre').value = sucursal.nombre;
+          document.getElementById('direccion').value = sucursal.direccion;
+          document.getElementById('ciudad').value = sucursal.ciudad;
+          document.getElementById('telefono').value = sucursal.telefono || '';
+          document.getElementById('encargado').value = sucursal.encargado || '';
+          document.getElementById('email').value = sucursal.email || '';
+          document.getElementById('horario').value = sucursal.horario || '';
+          document.getElementById('estado').value = sucursal.estado;
+          
+          document.getElementById('sucursalModal').classList.add('active');
+        }
+      }
+
+      // Función para ver detalles
+      function verDetalles(id) {
+        const sucursal = sucursales.find(s => s.id === id);
+        if (sucursal) {
+          const detailContent = document.getElementById('detailContent');
+          detailContent.innerHTML = `
+            <div style="padding: 10px;">
+              <p><strong>ID:</strong> #${sucursal.id}</p>
+              <p><strong>Nombre:</strong> ${sucursal.nombre}</p>
+              <p><strong>Dirección:</strong> ${sucursal.direccion}</p>
+              <p><strong>Ciudad:</strong> ${sucursal.ciudad}</p>
+              <p><strong>Teléfono:</strong> ${sucursal.telefono || 'No especificado'}</p>
+              <p><strong>Email:</strong> ${sucursal.email || 'No especificado'}</p>
+              <p><strong>Encargado:</strong> ${sucursal.encargado || 'No especificado'}</p>
+              <p><strong>Horario:</strong> ${sucursal.horario || 'No especificado'}</p>
+              <p><strong>Estado:</strong> 
+                <span class="status-badge ${sucursal.estado === 'Activo' ? 'status-active' : 'status-inactive'}">
+                  ${sucursal.estado}
+                </span>
+              </p>
+            </div>
+          `;
+          document.getElementById('detailModal').classList.add('active');
+        }
+      }
+
+      // Función para guardar sucursal
+      function guardarSucursal() {
+        const form = document.getElementById('sucursalForm');
+        
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        mostrarLoading(true);
+        
+        const id = document.getElementById('sucursalId').value;
+        const sucursalData = {
+          nombre: document.getElementById('nombre').value,
+          direccion: document.getElementById('direccion').value,
+          ciudad: document.getElementById('ciudad').value,
+          telefono: document.getElementById('telefono').value,
+          encargado: document.getElementById('encargado').value,
+          email: document.getElementById('email').value,
+          horario: document.getElementById('horario').value,
+          estado: document.getElementById('estado').value,
+          empleados: 0
+        };
+
+        setTimeout(() => {
+          if (id) {
+            // Editar existente
+            const index = sucursales.findIndex(s => s.id === parseInt(id));
+            if (index !== -1) {
+              sucursales[index] = { ...sucursales[index], ...sucursalData };
+            }
+          } else {
+            // Agregar nuevo
+            const newId = Math.max(...sucursales.map(s => s.id)) + 1;
+            sucursales.push({ id: newId, ...sucursalData });
+          }
+
+          mostrarTabla();
+          cerrarModal();
+          mostrarLoading(false);
+        }, 500);
+      }
+
+      // Función para abrir modal de eliminar
+      function abrirDeleteModal(id, nombre) {
+        deleteId = id;
+        document.getElementById('deleteNombre').textContent = nombre;
+        document.getElementById('deleteModal').classList.add('active');
+      }
+
+      // Función para confirmar eliminación
+      function confirmarEliminar() {
+        if (deleteId) {
+          mostrarLoading(true);
+          
+          setTimeout(() => {
+            sucursales = sucursales.filter(s => s.id !== deleteId);
+            mostrarTabla();
+            cerrarDeleteModal();
+            mostrarLoading(false);
+          }, 500);
+        }
+      }
+
+      // Funciones para cerrar modales
+      function cerrarModal() {
+        document.getElementById('sucursalModal').classList.remove('active');
+      }
+
+      function cerrarDeleteModal() {
+        document.getElementById('deleteModal').classList.remove('active');
+        deleteId = null;
+      }
+
+      function cerrarDetailModal() {
+        document.getElementById('detailModal').classList.remove('active');
+      }
+
+      // Cerrar modales con Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          cerrarModal();
+          cerrarDeleteModal();
+          cerrarDetailModal();
+        }
+      });
+    </script>
+  </body>
 </html>
