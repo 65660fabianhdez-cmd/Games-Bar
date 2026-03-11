@@ -1,5 +1,10 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-# Create your views here.
-def Productos (request):
-    return render(request,'Producto.html')
+from .models import Producto_gb
+
+def pageProductos(request):
+
+    productos = Producto_gb.objects.select_related('proveedor').all()
+
+    return render(request, 'Producto.html', {
+        'productos': productos
+    })

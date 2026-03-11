@@ -21,6 +21,7 @@
       }
 
       /* SIDEBAR */
+
       .sidebar {
         width: 240px;
         background: linear-gradient(180deg, #0000ff, #00c2b8);
@@ -51,6 +52,7 @@
       }
 
       /* MAIN */
+
       .main-content {
         flex-grow: 1;
         display: flex;
@@ -80,6 +82,7 @@
       }
 
       /* CARD */
+
       .card {
         background: white;
         padding: 25px;
@@ -88,6 +91,7 @@
       }
 
       /* BOTONES */
+
       .btn {
         background: #0000ff;
         color: white;
@@ -104,6 +108,7 @@
       }
 
       /* TABLA */
+
       table {
         width: 100%;
         border-collapse: collapse;
@@ -127,30 +132,6 @@
         background-color: #f9fcff;
       }
 
-      /* MODAL */
-      .modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-        justify-content: center;
-        align-items: center;
-      }
-
-      .modal-content {
-        background: white;
-        padding: 25px;
-        border-radius: 12px;
-        width: 400px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      }
-
-      .modal-content input {
-        width: 100%;
-        padding: 8px;
-        margin: 8px 0;
-      }
-
       .titulo_barra {
         color: #ffffff;
         margin-bottom: 20px;
@@ -162,47 +143,32 @@
     <nav class="sidebar">
       <h2 class="titulo_barra">Game'sBar</h2>
 
-      <div
-        class="nav-item"
-        onclick="location.href = '//127.0.0.1:8000/pageEntradasSalidas'"
-      >
+      <div class="nav-item" onclick="location.href = '/pageEntradasSalidas/'">
         Entradas y Salidas
       </div>
 
-      <div
-        class="nav-item"
-        onclick="location.href = '//127.0.0.1:8000/pageProveedores'"
-      >
+      <div class="nav-item" onclick="location.href = '/pageProveedores/'">
         Proveedor
       </div>
 
       <div class="nav-item active">Producto</div>
 
-      <div
-        class="nav-item"
-        onclick="location.href = '//127.0.0.1:8000/pageReporte'"
-      >
+      <div class="nav-item" onclick="location.href = '/pageReporte/'">
         Reporte
       </div>
 
-      <div
-        class="nav-item"
-        onclick="location.href = '//127.0.0.1:8000/pageUsuario'"
-      >
+      <div class="nav-item" onclick="location.href = '/pageUsuario/'">
         Usuarios
       </div>
 
       <div
         class="nav-item"
-        onclick="location.href = '//127.0.0.1:8000/pageSolicitudProductos'"
+        onclick="location.href = '/pageSolicitudProductos/'"
       >
         Solicitud de Productos
       </div>
 
-      <div
-        class="nav-item"
-        onclick="location.href = '//127.0.0.1:8000/pageSucursal'"
-      >
+      <div class="nav-item" onclick="location.href = '/pageSucursal/'">
         Sucursal
       </div>
     </nav>
@@ -224,77 +190,30 @@
                 <th>Nombre del Producto</th>
                 <th>Cantidad</th>
                 <th>Unidad de Medida</th>
-                <th>ID Proveedor</th>
-                <th>Acción</th>
+                <th>Proveedor</th>
               </tr>
             </thead>
 
-            <tbody id="tablaProductos">
+            <tbody>
+              {% for producto in productos %}
+
               <tr>
-                <td>1</td>
-                <td>Control Xbox</td>
-                <td>15</td>
-                <td>Piezas</td>
-                <td>1</td>
-                <td>
-                  <button class="btn" onclick="editarProducto(this)">
-                    Editar
-                  </button>
-                </td>
+                <td>{{ producto.id }}</td>
+
+                <td>{{ producto.nombre_producto }}</td>
+
+                <td>{{ producto.cantidad }}</td>
+
+                <td>{{ producto.unidad_medida }}</td>
+
+                <td>{{ producto.proveedor.empresa_prov }}</td>
               </tr>
+
+              {% endfor %}
             </tbody>
           </table>
         </div>
       </section>
     </div>
-
-    <!-- MODAL SOLO PARA EDITAR -->
-    <div class="modal" id="modal">
-      <div class="modal-content">
-        <h3>Editar Producto</h3>
-
-        <input type="text" id="nombre" placeholder="Nombre del producto" />
-        <input type="number" id="cantidad" placeholder="Cantidad" />
-        <input type="text" id="unidad" placeholder="Unidad de medida" />
-        <input type="number" id="proveedor" placeholder="ID Proveedor" />
-
-        <button class="btn" onclick="guardarProducto()">Guardar Cambios</button>
-        <button class="btn" style="background: #999" onclick="cerrarModal()">
-          Cancelar
-        </button>
-      </div>
-    </div>
-
-    <script>
-      let filaActual = null;
-
-      function editarProducto(boton) {
-        filaActual = boton.parentElement.parentElement;
-
-        document.getElementById("nombre").value = filaActual.cells[1].innerText;
-        document.getElementById("cantidad").value =
-          filaActual.cells[2].innerText;
-        document.getElementById("unidad").value = filaActual.cells[3].innerText;
-        document.getElementById("proveedor").value =
-          filaActual.cells[4].innerText;
-
-        document.getElementById("modal").style.display = "flex";
-      }
-
-      function cerrarModal() {
-        document.getElementById("modal").style.display = "none";
-      }
-
-      function guardarProducto() {
-        filaActual.cells[1].innerText = document.getElementById("nombre").value;
-        filaActual.cells[2].innerText =
-          document.getElementById("cantidad").value;
-        filaActual.cells[3].innerText = document.getElementById("unidad").value;
-        filaActual.cells[4].innerText =
-          document.getElementById("proveedor").value;
-
-        cerrarModal();
-      }
-    </script>
   </body>
 </html>

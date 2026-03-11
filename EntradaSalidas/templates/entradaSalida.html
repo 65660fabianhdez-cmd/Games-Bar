@@ -80,9 +80,8 @@
         flex-grow: 1;
       }
 
-      h2 {
-        color: #f8f8f8;
-        margin-bottom: 20px;
+      .titulo_1{
+        color: white;
       }
 
       .card {
@@ -96,25 +95,53 @@
 
   <body>
     <nav class="sidebar">
-      <h2>Game'sBar</h2>
+      <h2 class="titulo_1">Game'sBar</h2>
 
       <div class="nav-item active" onclick="location.href = '#'">
         Entradas y Salidas
       </div>
 
-      <div class="nav-item" onclick="location.href = '//127.0.0.1:8000/pageProveedores'">Proveedor</div>
+      <div
+        class="nav-item"
+        onclick="location.href = '//127.0.0.1:8000/pageProveedores'"
+      >
+        Proveedor
+      </div>
 
-      <div class="nav-item" onclick="location.href = '//127.0.0.1:8000/pageProductos'">Producto</div>
+      <div
+        class="nav-item"
+        onclick="location.href = '//127.0.0.1:8000/pageProductos'"
+      >
+        Producto
+      </div>
 
-      <div class="nav-item" onclick="location.href = '//127.0.0.1:8000/pageReporte'">Reporte</div>
+      <div
+        class="nav-item"
+        onclick="location.href = '//127.0.0.1:8000/pageReporte'"
+      >
+        Reporte
+      </div>
 
-      <div class="nav-item" onclick="location.href = '//127.0.0.1:8000/pageUsuario'">Usuarios</div>
+      <div
+        class="nav-item"
+        onclick="location.href = '//127.0.0.1:8000/pageUsuario'"
+      >
+        Usuarios
+      </div>
 
-      <div class="nav-item" onclick="location.href = '//127.0.0.1:8000/pageSolicitudProductos'">
+      <div
+        class="nav-item"
+        onclick="location.href = '//127.0.0.1:8000/pageSolicitudProductos'"
+      >
         Solicitud de Productos
       </div>
 
-      <div class="nav-item" onclick="location.href = '//127.0.0.1:8000/pageSucursal'">Sucursal</div>
+      <div
+        class="nav-item"
+        onclick="location.href = '//127.0.0.1:8000/pageSucursal'"
+      >
+        Sucursal
+      </div>
     </nav>
 
     <div class="main-content">
@@ -124,13 +151,129 @@
       </header>
 
       <section>
-        <h2>Entradas y Salidas</h2>
+        <h2 class = "titulo_2">Entradas y Salidas</h2>
 
         <div class="card">
-          <p>
-            Aquí irá el contenido correspondiente al módulo seleccionado. Puedes
-            colocar tablas, formularios o reportes dependiendo de la opción.
-          </p>
+          <!-- TABLA ENTRADAS -->
+
+          <h3 style="margin-bottom: 15px">Entradas</h3>
+
+          <table
+            style="
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 40px;
+              text-align: center;
+            "
+          >
+            <thead>
+              <tr style="background: #f0f4f8">
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  ID Entrada
+                </th>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Producto
+                </th>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Cantidad
+                </th>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Proveedor
+                </th>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Fecha
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">1</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Control Xbox
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">20</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Xbox
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  10/03/2026
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">2</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Mario Kart
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">10</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Nintendo
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  10/03/2026
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- TABLA SALIDAS -->
+
+          <h3 style="margin-bottom: 15px">Salidas</h3>
+
+          <table
+            style="width: 100%; border-collapse: collapse; text-align: center"
+          >
+            <thead>
+              <tr style="background: #f0f4f8">
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  ID Salida
+                </th>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Producto
+                </th>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Cantidad
+                </th>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Sucursal
+                </th>
+                <th style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Fecha
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">1</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Control Xbox
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">5</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Sucursal Centro
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  10/03/2026
+                </td>
+              </tr>
+
+              <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">2</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Mario Kart
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">3</td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  Sucursal Norte
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #ddd">
+                  10/03/2026
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
     </div>

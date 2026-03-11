@@ -85,7 +85,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'gamesbar',
         'USER': 'postgres',
-        'PASSWORD': 'root1',
+        'PASSWORD': 'rootwan1',
         'HOST': 'localhost',
         'PORT': '5433'
         }
