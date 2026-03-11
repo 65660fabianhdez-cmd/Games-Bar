@@ -27,6 +27,6 @@ def ingresar_pagina(request):
             })
     
     print(usuario)
-    print(password)        
+    print(password)
 
     return render(request, 'Usuario.html')

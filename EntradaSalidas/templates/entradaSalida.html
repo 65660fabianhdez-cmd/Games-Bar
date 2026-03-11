@@ -80,8 +80,13 @@
         flex-grow: 1;
       }
 
-      .titulo_1{
+      .titulo_1 {
         color: white;
+      }
+
+      .titulo_2 {
+        color: #111;
+        margin-bottom: 20px;
       }
 
       .card {
@@ -89,6 +94,71 @@
         padding: 25px;
         border-radius: 12px;
         box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .input-form {
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      /* NUEVOS ESTILOS SOLO PARA TABLAS - RESPETANDO COLORES ORIGINALES */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 40px;
+        text-align: center;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }
+
+      table thead tr {
+        background: linear-gradient(90deg, #0000ff, #00c2b8);
+      }
+
+      table th {
+        padding: 12px;
+        color: white;
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: none;
+      }
+
+      table td {
+        padding: 12px;
+        border-bottom: 1px solid #e0e0e0;
+        color: #111;
+      }
+
+      table tbody tr:hover {
+        background-color: #e6f3f2;
+      }
+
+      table tbody tr:last-child td {
+        border-bottom: none;
+      }
+
+      /* Mantener el estilo original de los títulos dentro de card */
+      .card h3 {
+        margin-bottom: 15px;
+        color: #111;
+      }
+
+      /* Mantener el estilo original del botón */
+      button[type="submit"] {
+        background: linear-gradient(90deg, #0000ff, #00c2b8);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      button[type="submit"]:hover {
+        opacity: 0.9;
       }
     </style>
   </head>
@@ -151,68 +221,80 @@
       </header>
 
       <section>
-        <h2 class = "titulo_2">Entradas y Salidas</h2>
+        <h2 class="titulo_2">Entradas y Salidas</h2>
 
         <div class="card">
+          <!-- FORMULARIO PARA INGRESAR ENTRADAS -->
+
+          <h3 style="margin-bottom: 15px">Registrar Entrada</h3>
+
+          <form method="POST" style="margin-bottom: 30px">
+            {% csrf_token %}
+
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-bottom: 15px;
+              "
+            >
+              <input
+                class="input-form"
+                type="number"
+                name="id_entrada"
+                placeholder="ID Entrada"
+              />
+
+              <input
+                class="input-form"
+                type="text"
+                name="producto"
+                placeholder="Producto"
+              />
+
+              <input
+                class="input-form"
+                type="number"
+                name="cantidad"
+                placeholder="Cantidad"
+              />
+
+              <input
+                class="input-form"
+                type="text"
+                name="proveedor"
+                placeholder="Proveedor"
+              />
+
+              <input class="input-form" type="date" name="fecha" />
+            </div>
+
+            <button type="submit">Agregar Entrada</button>
+          </form>
+
           <!-- TABLA ENTRADAS -->
 
           <h3 style="margin-bottom: 15px">Entradas</h3>
 
-          <table
-            style="
-              width: 100%;
-              border-collapse: collapse;
-              margin-bottom: 40px;
-              text-align: center;
-            "
-          >
+          <table>
             <thead>
-              <tr style="background: #f0f4f8">
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  ID Entrada
-                </th>
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Producto
-                </th>
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Cantidad
-                </th>
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Proveedor
-                </th>
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Fecha
-                </th>
+              <tr>
+                <th>ID Entrada</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Proveedor</th>
+                <th>Fecha</th>
               </tr>
             </thead>
 
             <tbody>
               <tr>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">1</td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Control Xbox
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">20</td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Xbox
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  10/03/2026
-                </td>
-              </tr>
-
-              <tr>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">2</td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Mario Kart
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">10</td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Nintendo
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  10/03/2026
-                </td>
+                <td>1</td>
+                <td>Control Xbox</td>
+                <td>20</td>
+                <td>Xbox</td>
+                <td>10/03/2026</td>
               </tr>
             </tbody>
           </table>
@@ -221,56 +303,24 @@
 
           <h3 style="margin-bottom: 15px">Salidas</h3>
 
-          <table
-            style="width: 100%; border-collapse: collapse; text-align: center"
-          >
+          <table>
             <thead>
-              <tr style="background: #f0f4f8">
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  ID Salida
-                </th>
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Producto
-                </th>
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Cantidad
-                </th>
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Sucursal
-                </th>
-                <th style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Fecha
-                </th>
+              <tr>
+                <th>ID Salida</th>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Sucursal</th>
+                <th>Fecha</th>
               </tr>
             </thead>
 
             <tbody>
               <tr>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">1</td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Control Xbox
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">5</td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Sucursal Centro
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  10/03/2026
-                </td>
-              </tr>
-
-              <tr>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">2</td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Mario Kart
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">3</td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  Sucursal Norte
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #ddd">
-                  10/03/2026
-                </td>
+                <td>1</td>
+                <td>Control Xbox</td>
+                <td>5</td>
+                <td>Sucursal Centro</td>
+                <td>10/03/2026</td>
               </tr>
             </tbody>
           </table>
