@@ -7,9 +7,11 @@ from Proveedor.models import Proveedor_pxn
 def inicio(request):
 
     entradas = Entrada.objects.all()
+    proveedores = Proveedor_pxn.objects.all()
 
     return render(request, "entradaSalida.html", {
-        'entradas': entradas
+        'entradas': entradas,
+        'proveedores': proveedores
     })
 
 
@@ -20,13 +22,10 @@ def agregar_entrada(request):
         nombre_producto = request.POST.get("producto")
         cantidad = request.POST.get("cantidad")
         unidad = request.POST.get("unidad_medida")
-        nombre_proveedor = request.POST.get("proveedor")
+        proveedor_id = request.POST.get("proveedor")
         fecha = request.POST.get("fecha")
 
-        # Crear proveedor si no existe
-        proveedor, creado = Proveedor_pxn.objects.get_or_create(
-            empresa_prov=nombre_proveedor
-        )
+        proveedor = Proveedor_pxn.objects.get(id=proveedor_id)
 
         # Crear producto si no existe
         producto, creado = Producto_gb.objects.get_or_create(

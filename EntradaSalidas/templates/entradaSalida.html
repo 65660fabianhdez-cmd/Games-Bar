@@ -185,12 +185,14 @@
                 <option value="litro">litro</option>
               </select>
 
-              <input
-                class="input-form"
-                type="text"
-                name="proveedor"
-                placeholder="Proveedor"
-              />
+              <select class="input-form" name="proveedor">
+                <option value="">Seleccionar proveedor</option>
+                {% for proveedor in proveedores %}
+                <option value="{{proveedor.id}}">
+                  {{proveedor.empresa_prov}}
+                </option>
+                {% endfor %}
+              </select>
 
               <input class="input-form" type="date" name="fecha" />
             </div>
