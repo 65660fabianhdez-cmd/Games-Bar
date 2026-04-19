@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Sucursal
+from Usuarios.views import role_required
 
+@role_required(['operaciones'])
 def pageSucursal(request):
 
     sucursales = Sucursal.objects.all()
@@ -9,6 +11,7 @@ def pageSucursal(request):
         "sucursales": sucursales
     })
 
+@role_required(['operaciones'])
 def crearSucursal(request):
 
     if request.method == "POST":
@@ -36,6 +39,7 @@ def crearSucursal(request):
     return redirect("/pageSucursal/")
 
 
+@role_required(['operaciones'])
 def editarSucursal(request, id):
 
     sucursal = get_object_or_404(Sucursal, id=id)
@@ -59,6 +63,7 @@ def editarSucursal(request, id):
         "sucursal": sucursal
     })
 
+@role_required(['operaciones'])
 def eliminarSucursal(request, id):
 
     sucursal = get_object_or_404(Sucursal, id=id)

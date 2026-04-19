@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Analista Reportes - Game'sBar</title>
+</head>
+<body>
+    <h1>Panel de Analista de Reportes</h1>
+    <p>Bienvenido, {{ request.session.username }}.</p>
+    <p>Rol: Analista de Reportes</p>
+    <ul>
+        <li>Ver reportes y estadísticas.</li>
+        <li>Consultar histórico de entradas y salidas.</li>
+        <li>Revisar datos sin poder modificar operaciones.</li>
+    </ul>
+    <p><a href="/pageUsuario/logout/">Cerrar sesión</a></p>
+</body>
+</html>

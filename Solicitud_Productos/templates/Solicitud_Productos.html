@@ -1,10 +1,9 @@
 <!doctype html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Game'sBar Admin 🎮</title>
+    <title>Game'sBar Admin - Solicitud de Productos</title>
 
     <style>
         * {
@@ -63,6 +62,7 @@
             color: white;
             display: flex;
             justify-content: space-between;
+            align-items: center;
             font-weight: 700;
             font-size: 1.25rem;
         }
@@ -78,7 +78,7 @@
             margin-bottom: 20px;
         }
 
-        .titulo_barra{
+        .titulo_barra {
             color: #ffffff;
             margin-bottom: 20px;
         }
@@ -91,8 +91,14 @@
             margin-bottom: 30px;
         }
 
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
         .form-group {
-            margin-bottom: 18px;
             display: flex;
             flex-direction: column;
         }
@@ -108,11 +114,12 @@
             padding: 10px;
             border-radius: 6px;
             border: 1px solid #ccc;
+            font: inherit;
         }
 
         textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 90px;
         }
 
         .section-divider {
@@ -123,23 +130,82 @@
             padding-bottom: 5px;
         }
 
-        .btn-primary {
-            background: linear-gradient(90deg, #0000ff, #00c2b8);
-            color: white;
-            padding: 10px 15px;
+        .btn-primary,
+        .btn-secondary,
+        .btn-warning,
+        .btn-danger,
+        .btn-link {
             border: none;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #0000ff, #00c2b8);
+            color: white;
+            padding: 10px 16px;
         }
 
         .btn-secondary {
-            background: #e0e0e0;
+            background: #e8eef6;
+            color: #1c2c3a;
+            padding: 10px 14px;
+        }
+
+        .btn-warning {
+            background: #f6a623;
+            color: white;
+            padding: 8px 12px;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+            padding: 8px 12px;
+        }
+
+        .btn-link {
+            background: #00c2b8;
+            color: white;
+            padding: 8px 12px;
+        }
+
+        .actions-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .alert {
+            background: #ffe9e9;
+            color: #8a1f11;
+            border: 1px solid #f2b8b5;
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 20px;
+        }
+
+        .helper-text {
+            color: #4d5d6c;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .estado {
+            display: inline-block;
             padding: 6px 10px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: #edf6ff;
+            color: #0a58ca;
         }
 
         table {
@@ -148,125 +214,309 @@
             margin-top: 10px;
         }
 
-        table th, table td {
+        table th,
+        table td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 10px 8px;
+            text-align: center;
+            vertical-align: middle;
         }
 
         table th {
             background: #f0f8ff;
         }
+
+        .table-input {
+            width: 100%;
+            border: 1px solid #cfd8e3;
+            border-radius: 6px;
+            padding: 8px;
+            font: inherit;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #536271;
+            padding: 18px 0;
+        }
+
+        .detail-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+
+        .detail-box {
+            border: 1px solid #dce6ef;
+            border-radius: 10px;
+            padding: 14px;
+            background: #f8fbff;
+        }
+
+        .detail-box strong {
+            display: block;
+            color: #0000ff;
+            margin-bottom: 6px;
+        }
+
+        .inline-form {
+            display: inline;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                flex-direction: column;
+                height: auto;
+                overflow: auto;
+            }
+
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 12px;
+                gap: 8px;
+            }
+
+            .sidebar h2 {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .nav-item {
+                padding: 10px 14px;
+                border-radius: 8px;
+            }
+        }
     </style>
 </head>
-
 <body>
     <nav class="sidebar">
-        <h2 class = "titulo_barra">Game'sBar</h2>
+        <h2 class="titulo_barra">Game'sBar</h2>
 
-        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageEntradasSalidas'">
+        <div class="nav-item" data-page="entradas" onclick="handleNavClick(event, '/pageEntradasSalidas/', 'entradas')">
             Entradas y Salidas
         </div>
 
-        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageProveedores'">
+        <div class="nav-item" data-page="proveedor" onclick="handleNavClick(event, '/pageProveedores/', 'proveedor')">
             Proveedor
         </div>
 
-        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageProductos'">
+        <div class="nav-item" data-page="productos" onclick="handleNavClick(event, '/pageProductos/', 'productos')">
             Producto
         </div>
 
-        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageReporte'">
+        <div class="nav-item" data-page="reporte" onclick="handleNavClick(event, '/pageReporte/', 'reporte')">
             Reporte
         </div>
 
-        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageUsuario'">
+        <div class="nav-item" data-page="usuarios" onclick="handleNavClick(event, '/pageUsuario/', 'usuarios')">
             Usuarios
         </div>
 
-        <div class="nav-item active">
+        <div class="nav-item active" data-page="solicitud" onclick="handleNavClick(event, '/pageSolicitudProductos/', 'solicitud')">
             Solicitud de Productos
         </div>
 
-        <div class="nav-item" onclick="location.href='//127.0.0.1:8000/pageSucursal'">
+        <div class="nav-item" data-page="sucursal" onclick="handleNavClick(event, '/pageSucursal/', 'sucursal')">
             Sucursal
         </div>
     </nav>
 
     <div class="main-content">
         <header>
-            Game'sBar 🎮 - Administración
+            Game'sBar - Administracion
             <div>Hola, Admin</div>
         </header>
 
         <section>
-
-            <h2>Nueva Solicitud de Productos</h2>
+            <h2>
+                {% if modo_edicion %}
+                Editar Solicitud de Productos
+                {% else %}
+                Nueva Solicitud de Productos
+                {% endif %}
+            </h2>
 
             <div class="card">
+                {% if error %}
+                <div class="alert">{{ error }}</div>
+                {% endif %}
 
-                <div class="form-group">
-                    <label>Folio de Solicitud</label>
-                    <input type="text" value="SOL-20260302-4821" readonly>
+                {% if modo_edicion %}
+                <form action="/pageSolicitudProductos/actualizarSolicitud/{{ solicitud_form.id }}/" method="POST" id="solicitud-form">
+                {% else %}
+                <form action="/pageSolicitudProductos/crearSolicitud/" method="POST" id="solicitud-form">
+                {% endif %}
+                    {% csrf_token %}
+                    <input type="hidden" name="solicitud_id" value="{{ solicitud_form.id|default:'' }}">
+                    <input type="hidden" name="folio" value="{{ solicitud_form.folio|default:'' }}">
+
+                    <div class="grid">
+                        <div class="form-group">
+                            <label>Folio de Solicitud</label>
+                            <input type="text" value="{{ solicitud_form.folio|default:'Se genera automaticamente al guardar' }}" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Fecha</label>
+                            <input type="date" name="fecha" value="{{ solicitud_form.fecha|default:'' }}" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Proveedor</label>
+                            <select name="proveedor" required>
+                                <option value="">Seleccione proveedor</option>
+                                {% for proveedor in proveedores %}
+                                <option value="{{ proveedor.id }}" {% if solicitud_form.proveedor_id|stringformat:"s" == proveedor.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ proveedor.empresa_prov }} - {{ proveedor.nombre_prov }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select name="estado">
+                                {% for valor, etiqueta in estados %}
+                                <option value="{{ valor }}" {% if solicitud_form.estado == valor %}selected{% endif %}>
+                                    {{ etiqueta }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="section-divider">Productos a Solicitar</div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre del Producto</th>
+                                <th>Categoria</th>
+                                <th>Cantidad</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>
+                        <tbody id="detalle-body">
+                            {% for detalle in detalle_filas %}
+                            <tr>
+                                <td>
+                                    <input class="table-input" type="text" name="producto[]" list="productos-sugeridos" placeholder="Ej. FIFA 26" value="{{ detalle.nombre_producto }}" required>
+                                </td>
+                                <td>
+                                    <select class="table-input" name="categoria[]">
+                                        {% for valor, etiqueta in categorias %}
+                                        <option value="{{ valor }}" {% if detalle.categoria == valor %}selected{% endif %}>{{ etiqueta }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td>
+                                <td>
+                                    <input class="table-input" type="number" name="cantidad[]" min="1" value="{{ detalle.cantidad }}" required>
+                                </td>
+                                <td>
+                                    <button class="btn-secondary remove-row" type="button">Eliminar</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <datalist id="productos-sugeridos">
+                        {% for nombre in productos_sugeridos %}
+                        <option value="{{ nombre }}"></option>
+                        {% endfor %}
+                    </datalist>
+
+                    <button class="btn-secondary" type="button" id="agregar-producto" style="margin-top: 14px;">
+                        Agregar Otro Producto
+                    </button>
+
+                    <p class="helper-text">
+                        {% if productos_sugeridos %}
+                        Puedes escribir libremente o usar nombres ya registrados en inventario.
+                        {% else %}
+                        Aun no hay productos en inventario, pero puedes capturar nombres manualmente.
+                        {% endif %}
+                    </p>
+
+                    <div class="form-group" style="margin-top:20px;">
+                        <label>Observaciones</label>
+                        <textarea name="observaciones" placeholder="Notas adicionales sobre la solicitud...">{{ solicitud_form.observaciones|default:'' }}</textarea>
+                    </div>
+
+                    <div class="actions-row">
+                        <button class="btn-primary" type="submit" {% if not proveedores %}disabled{% endif %}>
+                            {% if modo_edicion %}
+                            Actualizar Solicitud
+                            {% else %}
+                            Guardar Solicitud
+                            {% endif %}
+                        </button>
+
+                        {% if modo_edicion %}
+                        <a class="btn-secondary" href="/pageSolicitudProductos/">Cancelar edicion</a>
+                        {% endif %}
+                    </div>
+
+                    {% if not proveedores %}
+                    <p class="helper-text">Primero registra al menos un proveedor para poder guardar solicitudes.</p>
+                    {% endif %}
+                </form>
+            </div>
+
+            {% if solicitud_detalle %}
+            <h2>Detalle de la Solicitud</h2>
+            <div class="card">
+                <div class="detail-list">
+                    <div class="detail-box">
+                        <strong>Folio</strong>
+                        <span>{{ solicitud_detalle.folio }}</span>
+                    </div>
+                    <div class="detail-box">
+                        <strong>Fecha</strong>
+                        <span>{{ solicitud_detalle.fecha|date:"d/m/Y" }}</span>
+                    </div>
+                    <div class="detail-box">
+                        <strong>Proveedor</strong>
+                        <span>{{ solicitud_detalle.proveedor.empresa_prov }} - {{ solicitud_detalle.proveedor.nombre_prov }}</span>
+                    </div>
+                    <div class="detail-box">
+                        <strong>Estado</strong>
+                        <span class="estado">{{ solicitud_detalle.estado }}</span>
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label>Fecha</label>
-                    <input type="date">
-                </div>
-
-                <div class="form-group">
-                    <label>Proveedor</label>
-                    <select>
-                        <option>Seleccione proveedor</option>
-                        <option>Xbox</option>
-                        <option>PlayStation</option>
-                        <option>Nintendo</option>
-                    </select>
-                </div>
-
-                <div class="section-divider">Productos a Solicitar</div>
 
                 <table>
                     <thead>
                         <tr>
-                            <th>Nombre del Producto</th>
-                            <th>Categoría</th>
+                            <th>Producto</th>
+                            <th>Categoria</th>
                             <th>Cantidad</th>
-                            <th>Acción</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for detalle in solicitud_detalle.detalles.all %}
                         <tr>
-                            <td><input type="text" placeholder="Ej. FIFA 26"></td>
-                            <td>
-                                <select>
-                                    <option>Videojuego</option>
-                                    <option>Consola</option>
-                                    <option>Control</option>
-                                    <option>Accesorio</option>
-                                </select>
-                            </td>
-                            <td><input type="number" min="1"></td>
-                            <td><button class="btn-secondary">Eliminar</button></td>
+                            <td>{{ detalle.nombre_producto }}</td>
+                            <td>{{ detalle.categoria }}</td>
+                            <td>{{ detalle.cantidad }}</td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
 
-                <button class="btn-secondary">Agregar Otro Producto</button>
-
                 <div class="form-group" style="margin-top:20px;">
                     <label>Observaciones</label>
-                    <textarea placeholder="Notas adicionales sobre la solicitud..."></textarea>
+                    <textarea readonly>{{ solicitud_detalle.observaciones|default:'Sin observaciones.' }}</textarea>
                 </div>
-
-                <button class="btn-primary">Guardar Solicitud</button>
-
             </div>
+            {% endif %}
 
             <h2>Solicitudes Registradas</h2>
 
             <div class="card">
-
                 <table>
                     <thead>
                         <tr>
@@ -274,27 +524,89 @@
                             <th>Fecha</th>
                             <th>Proveedor</th>
                             <th>Estado</th>
+                            <th>Productos</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for solicitud in solicitudes %}
                         <tr>
-                            <td>SOL-20260301-1932</td>
-                            <td>01/03/2026</td>
-                            <td>Xbox</td>
-                            <td>Pendiente</td>
+                            <td>{{ solicitud.folio }}</td>
+                            <td>{{ solicitud.fecha|date:"d/m/Y" }}</td>
+                            <td>{{ solicitud.proveedor.empresa_prov }}</td>
+                            <td><span class="estado">{{ solicitud.estado }}</span></td>
+                            <td>{{ solicitud.detalles.all|length }}</td>
                             <td>
-                                <button class="btn-secondary">Ver</button>
-                                <button class="btn-secondary">Editar</button>
-                                <button class="btn-secondary">Eliminar</button>
+                                <a class="btn-link" href="/pageSolicitudProductos/verSolicitud/{{ solicitud.id }}/">Ver</a>
+                                <a class="btn-warning" href="/pageSolicitudProductos/editarSolicitud/{{ solicitud.id }}/">Editar</a>
+                                <form action="/pageSolicitudProductos/eliminarSolicitud/{{ solicitud.id }}/" method="POST" class="inline-form">
+                                    {% csrf_token %}
+                                    <button class="btn-danger" type="submit">Eliminar</button>
+                                </form>
                             </td>
                         </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="empty-state">No hay solicitudes registradas.</td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-
             </div>
-
         </section>
     </div>
+
+    <template id="detalle-row-template">
+        <tr>
+            <td>
+                <input class="table-input" type="text" name="producto[]" list="productos-sugeridos" placeholder="Ej. FIFA 26" required>
+            </td>
+            <td>
+                <select class="table-input" name="categoria[]">
+                    <option value="Videojuego">Videojuego</option>
+                    <option value="Consola">Consola</option>
+                    <option value="Control">Control</option>
+                    <option value="Accesorio">Accesorio</option>
+                    <option value="Otro">Otro</option>
+                </select>
+            </td>
+            <td>
+                <input class="table-input" type="number" name="cantidad[]" min="1" required>
+            </td>
+            <td>
+                <button class="btn-secondary remove-row" type="button">Eliminar</button>
+            </td>
+        </tr>
+    </template>
+
+    <script>
+        const detalleBody = document.getElementById("detalle-body");
+        const addButton = document.getElementById("agregar-producto");
+        const rowTemplate = document.getElementById("detalle-row-template");
+
+        addButton.addEventListener("click", function () {
+            const row = rowTemplate.content.firstElementChild.cloneNode(true);
+            detalleBody.appendChild(row);
+        });
+
+        detalleBody.addEventListener("click", function (event) {
+            if (!event.target.classList.contains("remove-row")) {
+                return;
+            }
+
+            const rows = detalleBody.querySelectorAll("tr");
+            const row = event.target.closest("tr");
+
+            if (rows.length === 1) {
+                row.querySelectorAll("input").forEach(function (input) {
+                    input.value = "";
+                });
+                row.querySelector("select").value = "Videojuego";
+                return;
+            }
+
+            row.remove();
+        });
+    </script>
 </body>
 </html>

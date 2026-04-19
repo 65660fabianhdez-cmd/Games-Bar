@@ -1,10 +1,13 @@
 from django.shortcuts import render,redirect
 from .models import Proveedor_pxn
+from Usuarios.views import role_required
 # Create your views here.
+@role_required(['proveedor'])
 def Proveedor(request):
     proveedores = Proveedor_pxn.objects.all()
     return render(request, "Proveedor.html", {"proveedores": proveedores})
 
+@role_required(['proveedor'])
 def sumar_proveedor(request):
 
     if request.method == "POST":
@@ -17,11 +20,13 @@ def sumar_proveedor(request):
 
     return redirect('/pageProveedores/')
 
+@role_required(['proveedor'])
 def eliminar_proveedor(request, id):
     provedor = Proveedor_pxn.objects.get(id=id)
     provedor.delete()
     return redirect('/pageProveedores/')
 
+@role_required(['proveedor'])
 def editar_proveedor(request, id):
 
     proveedor = Proveedor_pxn.objects.get(id=id)
@@ -31,6 +36,7 @@ def editar_proveedor(request, id):
     })
 
 
+@role_required(['proveedor'])
 def actualizar_proveedor(request, id):
 
     proveedor = Proveedor_pxn.objects.get(id=id)

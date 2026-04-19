@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Inventario - Game'sBar</title>
+</head>
+<body>
+    <h1>Panel de Inventario</h1>
+    <p>Bienvenido, {{ request.session.username }}.</p>
+    <p>Rol: Inventario</p>
+    <ul>
+        <li>Ver y actualizar productos.</li>
+        <li>Registrar entradas y salidas.</li>
+        <li>Consultar proveedores.</li>
+    </ul>
+    <p><a href="/pageUsuario/logout/">Cerrar sesión</a></p>
+</body>
+</html>

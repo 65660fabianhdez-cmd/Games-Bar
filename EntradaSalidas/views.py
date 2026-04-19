@@ -2,8 +2,10 @@ from django.shortcuts import render, redirect
 from .models import Entrada
 from Producto.models import Producto_gb
 from Proveedor.models import Proveedor_pxn
+from Usuarios.views import role_required
 
 
+@role_required(['operaciones'])
 def inicio(request):
 
     entradas = Entrada.objects.all()
@@ -15,6 +17,7 @@ def inicio(request):
     })
 
 
+@role_required(['operaciones'])
 def agregar_entrada(request):
 
     if request.method == "POST":
